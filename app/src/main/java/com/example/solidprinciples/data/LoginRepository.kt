@@ -1,6 +1,7 @@
 package com.example.solidprinciples.data
 
 import com.example.solidprinciples.data.model.LoggedInUser
+import java.io.File
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -27,12 +28,24 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
+    /**
+     * Single responsability: reason to change
+     * Responsabilidad única: Al final de cuentas son las razones para cambiar una función.
+     * Entonces no importa la clase o la función, éstas deben tener sólo una reponsabiliad
+     * y una razón para cambiar
+     */
     fun login(username: String, password: String): Result<LoggedInUser> {
-        // handle login
+        // con ésta línea manejamos el login de la aplicación
         val result = dataSource.login(username, password)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
+        } else {
+            // En caso de error lo guardamos en un archivo de error
+            val file = File("error.txt")
+            file.appendText(
+               text = (result as Result.Error).toString()
+            )
         }
 
         return result
