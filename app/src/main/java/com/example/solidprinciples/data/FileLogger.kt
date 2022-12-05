@@ -13,7 +13,9 @@ import java.io.File
  */
 interface FileLogger {
 
-    fun printLogs()
+    fun printLogs() {
+        // Default behavior
+    }
 
 
     // Que pasa si queremos cambiar la manera en que logueamos el error?
@@ -31,7 +33,7 @@ interface FileLogger {
 
 }
 
-class CustomFileLogger: FileLogger() {
+class CustomFileLogger: FileLogger {
 
     /**
      * Podemos crear una clase nueva que extienda de una clase padre
