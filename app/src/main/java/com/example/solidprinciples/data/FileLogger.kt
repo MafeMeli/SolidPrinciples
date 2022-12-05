@@ -6,11 +6,18 @@ import java.io.File
  * Ésta clase tiene la única responsabilidad de loggear el error.
  * La O en SOLID corresponde a Open for extention but closed for modification.
  */
-open class FileLogger {
+
+/**
+ * La I corresponde a Interface Segregation: Una clase que implementa una interfaz
+ * no debe de ser forzada a usar métodos que no necesita
+ */
+interface FileLogger {
+
+    fun printLogs()
 
 
     // Que pasa si queremos cambiar la manera en que logueamos el error?
-    open fun logError(error: String){
+    fun logError(error: String){
         // En caso de error lo guardamos en un archivo de error
         // Cambiar simplemente el nombre del archivo estaría mal, podría generar conflictos.
         // Porque donde quiera que usemos esta clase en nuestro código, cambiaría la manera en que
