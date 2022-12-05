@@ -8,7 +8,10 @@ import java.io.File
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class LoginRepository(val dataSource: LoginDataSource) {
+class LoginRepository(
+    val dataSource: LoginDataSource,
+    val fileLogger: FileLogger
+) {
 
     // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
@@ -41,11 +44,9 @@ class LoginRepository(val dataSource: LoginDataSource) {
         if (result is Result.Success) {
             setLoggedInUser(result.data)
         } else {
-            // En caso de error lo guardamos en un archivo de error
-            val file = File("error.txt")
-            file.appendText(
-               text = (result as Result.Error).toString()
-            )
+            // A través del file logger manejamos el error
+            // Ahora si lo quisieramos cambiar no tendríamos que modificar esta función
+            fileLogger.logError((result as Result.Error).toString())
         }
 
         return result
