@@ -6,9 +6,9 @@ import java.io.IOException
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
-class LoginDataSource {
+class LoginDataSource: Autheticator {
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
+    override fun login(username: String, password: String): Result<LoggedInUser> {
         try {
             // TODO: handle loggedInUser authentication
             val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
@@ -18,7 +18,18 @@ class LoginDataSource {
         }
     }
 
-    fun logout() {
+    override fun logout() {
         // TODO: revoke authentication
+    }
+}
+
+class CustomLogin: Autheticator {
+    override fun login(username: String, password: String): Result<LoggedInUser> {
+        println("login")
+        return Result.Success(LoggedInUser("xxx", "xxx"))
+    }
+
+    override fun logout() {
+        println("logout")
     }
 }

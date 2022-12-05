@@ -1,7 +1,6 @@
 package com.example.solidprinciples.data
 
 import com.example.solidprinciples.data.model.LoggedInUser
-import java.io.File
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -15,7 +14,7 @@ import java.io.File
 class LoginRepository(
     // Ésto es un concreción, si quisieramos cambiar la forma de loguearnos, tendríamos que cambiar la
     // lógica del repositorio
-    val dataSource: LoginDataSource,
+    val autheticator: Autheticator,
     val fileLogger: FileLogger
 ) {
 
@@ -34,7 +33,7 @@ class LoginRepository(
 
     fun logout() {
         user = null
-        dataSource.logout()
+        autheticator.logout()
     }
 
     /**
@@ -45,7 +44,7 @@ class LoginRepository(
      */
     fun login(username: String, password: String): Result<LoggedInUser> {
         // con ésta línea manejamos el login de la aplicación
-        val result = dataSource.login(username, password)
+        val result = autheticator.login(username, password)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
